@@ -1,0 +1,333 @@
+{include file="public/layout" /}
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/app.css?v={$version}?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/amazeui.min2.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/font_783249_m68ye1gfnza.css?v={$version}">
+
+<body class="bodystyle" style="cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+{include file="minipro/left" /}
+<div class="page" style="margin-left: 120px;">
+    <div class="flexigrid">
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th class="sign w20" axis="col0">
+                            <div class="tc"></div>
+                        </th>
+                        <th abbr="article_time" axis="col4" class="w150">
+                            <div class="tl">菜单名称</div>
+                        </th>
+                        <th abbr="ac_id" axis="col4">
+                            <div style="text-align: left; padding-left: 10px;" class="">页面路径链接</div>
+                        </th>
+                        <th abbr="article_time" axis="col4" class="w100">
+                            <div class="tl">默认图标</div>
+                        </th>
+                        <th abbr="article_time" axis="col4" class="w100">
+                            <div class="tl">选中图标</div>
+                        </th>
+                        <th align="center" axis="col6" class="w50">
+                            <div class="tc">显示</div>
+                        </th>
+                        <th axis="col1" class="w60">
+                            <div class="tc">操作</div>
+                        </th>
+                        <th abbr="article_show" axis="col5" class="w60">
+                            <div class="tc">排序</div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto; min-height: auto;">
+            <form id="PostForm">
+                <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+                    <table style="width: 100%">
+                        <tbody id="tbody">
+                        {empty name="list"}
+                            <tr>
+                                <td class="no-data" align="center" axis="col0" colspan="50">
+                                    <i class="fa fa-exclamation-circle"></i>没有符合条件的数据
+                                </td>
+                            </tr>
+                        {else/}
+                            {foreach name="list" item="vo" key="k" }
+                            <tr class="tr" id="tr_{$k}">
+                                <td class="sign">
+                                    <div class="w20 tc">
+                                        <input type="hidden" name="id[]" value="{$vo.id}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="w150 tl">
+                                        <input type="text" name="text[]" value="{$vo.text}" style="width: 130px;" >
+                                    </div>
+                                </td>
+                                <td style="width: 100%;">
+                                    <div class="tl" style="padding-left: 10px;">
+                                        <select name="path_type[]" onchange="select_path(this);">
+                                            {volist name="$path_type_list" id="v2"}
+                                            <option value="{$v2.id}" data-showtext="{$v2.showtext|default='false'}" {eq name="$vo.path_type" value="$v2.id"}selected{/eq}>{$v2.title}</option>
+                                            {/volist}
+                                        </select>
+                                        <span class="span_path_value">
+                                            {$vo.path_type_html}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="tc w100">
+                                        <img id="icon_a_{$k}" src="{$vo.icon|get_default_pic=###}?v={$version}" width="60" height="60" onClick="GetUploadify(1,'','allimg','icon_call_back_{$k}')" style="cursor: pointer;">
+                                        <input type="hidden" id="icon_{$k}" name="icon[]" value="{$vo.icon}?v={$version}">
+                                        <script type="text/javascript">
+                                            function icon_call_back_{$k}(fileurl_tmp) {
+                                                $("#icon_{$k}").val(fileurl_tmp);
+                                                $("#icon_a_{$k}").attr('src', fileurl_tmp);
+                                            }
+                                        </script>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="tc w100">
+                                        <img id="selected_icon_a_{$k}" src="{$vo.selected_icon|get_default_pic=###}?v={$version}" width="60" height="60" onClick="GetUploadify(1,'','allimg','selected_icon_call_back_{$k}')" style="cursor: pointer;">
+                                        <input type="hidden" id="selected_icon_{$k}" name="selected_icon[]" value="{$vo.selected_icon}?v={$version}">
+                                        <script type="text/javascript">
+                                            function selected_icon_call_back_{$k}(fileurl_tmp) {
+                                                $("#selected_icon_{$k}").val(fileurl_tmp);
+                                                $("#selected_icon_a_{$k}").attr('src', fileurl_tmp);
+                                            }
+                                        </script>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="tc w50">
+                                        {if condition="$vo['status'] eq 1"}
+                                            <span class="yes" onClick="changeTableVal2('status', this);" ><i class="fa fa-check-circle"></i>是</span>
+                                            <input type="hidden" name="status[]" value="{$vo.status}">
+                                        {else /}
+                                            <span class="no" onClick="changeTableVal2('status', this);" ><i class="fa fa-ban"></i>否</span>
+                                            <input type="hidden" name="status[]" value="{$vo.status}">
+                                        {/if}
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div class="w60 tc">
+                                        <a class="btn red" href="javascript:void(0);" onClick="tabbar_del({$k});"><i class="fa fa-trash-o"></i>删除</a>
+                                    </div>
+                                </td>
+                                <td class="sort">
+                                    <div class="w60 tc">
+                                        <input type="text" name="sort_order[]" onkeyup="this.value=this.value.replace(/[^\d]/g,'');" onpaste="this.value=this.value.replace(/[^\d]/g,'')" size="4"  value="{$vo.sort_order}" />
+                                    </div>
+                                </td>
+                            </tr>
+                            {/foreach}
+                        {/empty}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+        <div class="tDiv">
+            <div class="tDiv2">
+                <div class="fbutton">
+                    <a href="javascript:void(0);" onclick="tabbar_add();">
+                        <div class="add" title="新增">
+                            <span class="red"><i class="fa fa-plus"></i>新增</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="fbutton">
+                    <a href="javascript:void(0);" data-url="{:url('Minipro/tabbar_save', ['mini_id'=>$Request.param.mini_id, '_ajax'=>1])}" onclick="tabbar_save(this);">
+                        <div class="add" title="保存">
+                            <span class=""><i class="fa fa-save"></i>保存</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+    });
+
+    // 按钮点击切换是否
+    function changeTableVal2(field, obj)
+    {
+        if($(obj).hasClass('no')) // 图片点击是否操作
+        {          
+            $(obj).removeClass('no').addClass('yes');
+            $(obj).html("<i class='fa fa-check-circle'></i>是");
+            $(obj).parent().find('input[name^='+field+']').val(1);
+
+        }else if($(obj).hasClass('yes')){ // 图片点击是否操作                     
+            $(obj).removeClass('yes').addClass('no');
+            $(obj).html("<i class='fa fa-ban'></i>否");
+            $(obj).parent().find('input[name^='+field+']').val(0);
+        }
+    }
+
+    // 菜单链接
+    function select_path(obj)
+    {
+        var pathtype = $(obj).val();
+        var showtext = $(obj).find('option:selected').data('showtext');
+        var pathValueObj = $(obj).parent().find("span.span_path_value");
+        pathValueObj.html('');
+        if (true == showtext) {
+            $.ajax({
+                url: "{:url('Minipro/ajax_get_tabbar_pathvalue', ['mini_id'=>$Request.param.mini_id])}",
+                type: "POST",
+                dataType: "json",
+                data: {pathtype:pathtype, _ajax:1},
+                success: function(res){
+                    if (res.code == 1) {
+                        pathValueObj.html(res.data.msg).show();
+                    } else {
+                        layer.alert(res.msg, {icon:5, title:false});
+                    }
+                    return false;
+                },
+                error: function(e){
+                    layer.alert('加载失败！', {icon:5, title:false});
+                    return false;
+                }
+            });
+        } else {
+            pathValueObj.html('<input type="hidden" name="path_value[]" value="">').hide();
+        }
+    }
+
+    function tabbar_add(){
+        var line = $('#tbody tr').length + 1;
+        var html = '';
+        html += '<tr class="tr" id="tr_'+line+'">';
+        html += '    <td class="sign">';
+        html += '      <div class="w20 tc"> ';
+        html += '        <input type="hidden" name="id[]" value="">';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td>';
+        html += '      <div class="w150 tl"> ';
+        html += '        <input type="text" name="text[]" value="" style="width: 130px;" >';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td style="width: 100%">';
+        html += '      <div class="tl" style="padding-left: 10px;">';
+        html += '        <select name="path_type[]" onchange="select_path(this);">';
+        {volist name="$path_type_list" id="v2"}
+        html += '            <option value="{$v2.id}" data-showtext="{$v2.showtext}">{$v2.title}</option>';
+        {/volist}
+        html += '        </select>';
+        html += '        <span class="span_path_value">';
+        html += '        </span>';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td>';
+        html += '      <div class="tc w100">';
+        html += '        <img id="icon_a_'+line+'" src="__STATIC__/common/minipro/img/tabbar/custom.png?v={$version}" width="60" height="60" onClick="GetUploadify(1,\'\',\'allimg\',\'icon_call_back_'+line+'\')" style="cursor: pointer;">';
+        html += '        <input type="hidden" id="icon_'+line+'" name="icon[]" value="__STATIC__/common/minipro/img/tabbar/custom.png?v={$version}">';
+        html += '        <script type="text/javascript">';
+        html += '           function icon_call_back_'+line+'(fileurl_tmp) {';
+        html += '              $("#icon_'+line+'").val(fileurl_tmp);';
+        html += '              $("#icon_a_'+line+'").attr("src", fileurl_tmp);';
+        html += '           }';
+        html += '        <\/script>';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td>';
+        html += '      <div class="tc w100">';
+        html += '        <img id="selected_icon_a_'+line+'" src="__STATIC__/common/minipro/img/tabbar/custom-active.png?v={$version}" width="60" height="60" onClick="GetUploadify(1,\'\',\'allimg\',\'selected_icon_call_back_'+line+'\')" style="cursor: pointer;">';
+        html += '        <input type="hidden" id="selected_icon_'+line+'" name="selected_icon[]" value="__STATIC__/common/minipro/img/tabbar/custom-active.png?v={$version}">';
+        html += '        <script type="text/javascript">';
+        html += '           function selected_icon_call_back_'+line+'(fileurl_tmp) {';
+        html += '              $("#selected_icon_'+line+'").val(fileurl_tmp);';
+        html += '              $("#selected_icon_a_'+line+'").attr("src", fileurl_tmp);';
+        html += '           }';
+        html += '        <\/script>';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td>';
+        html += '      <div class="tc w50">';
+        html += '        <span class="yes" onClick="changeTableVal2(\'status\', this);" ><i class="fa fa-check-circle"></i>是</span>';
+        html += '        <input type="hidden" name="status[]" value="1">';
+        html += '      </div>';
+        html += '    </td>';
+        html += '    <td class="">';
+        html += '       <div class="w60 tc">';
+        html += '          <a class="btn red" href="javascript:void(0);" data-id="{$vo.id}" onClick="tabbar_del('+line+');"><i class="fa fa-trash-o"></i>删除</a> ';
+        html += '       </div>';
+        html += '    </td>';
+        html += '    <td class="sort">';
+        html += '       <div class="w60 tc">';
+        html += '          <input type="text" name="sort_order[]" onkeyup="this.value=this.value.replace(/[^\d]/g,\'\');" onpaste="this.value=this.value.replace(/[^\d]/g,\'\')" size="4"  value="100" /> ';
+        html += '       </div>';
+        html += '    </td>';
+        html += '</tr>';
+
+        if ($('input[name*=id]').length == 0) {
+            $('#tbody').html(html);
+        } else {
+            $('#tbody').append(html);
+        }
+    }
+
+    // 删除
+    function tabbar_del(line)
+    {
+        $('#tr_'+line).remove();
+        if ($('input[name*=id]').length == 0) {
+            html = '';
+            html += '<tr>';
+            html += '    <td class="no-data" align="center" axis="col0" colspan="50">';
+            html += '        <i class="fa fa-exclamation-circle"></i>没有符合条件的数据';
+            html += '    </td>';
+            html += '</tr>';
+            $('#tbody').html(html);
+        }
+    }
+
+    // 提交
+    function tabbar_save(obj){
+        if ($('input[name*=id]').length == 0) {
+            layer.alert('至少新增一个菜单！', {icon: 5, title:false});
+            return false;
+        }
+
+        layer_loading('正在处理');
+        $.ajax({
+            type : 'post',
+            url : $(obj).attr('data-url'),
+            data : $('#PostForm').serialize(),
+            dataType : 'json',
+            success : function(res){
+                layer.closeAll();
+                if(res.code == 1){
+                    layer.msg(res.msg, {icon: 1, time: 1000}, function(){
+                        window.location.reload();
+                    });
+                }else{
+                    showErrorMsg(res.msg);
+                }
+            },
+            error: function(e){
+                layer.closeAll();
+                layer.alert(ey_unknown_error, {icon: 5, title:false});
+            }
+        });
+    }
+
+</script>
+
+{include file="public/footer" /}

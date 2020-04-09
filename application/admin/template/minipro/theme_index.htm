@@ -1,0 +1,191 @@
+{include file="public/layout" /}
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/app.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/amazeui.min2.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/font_783249_m68ye1gfnza.css">
+
+<body class="bodystyle" style="cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+{include file="minipro/left" /}
+<div class="page" style="margin-left: 120px; background-color: rgba(0,0,0,0);box-shadow: unset;">
+    <div class="flexigrid">
+        <div class="mDiv" style="overflow: hidden;background-color: rgba(0,0,0,0);">
+            <div class="ftitle">
+                <h3>小程序列表</h3>
+                <h5>(共{$pager->totalRows}条数据)</h5>
+            </div>
+            <div title="刷新数据" class="pReload" style="background-color: rgba(0,0,0,0);"><i class="fa fa-refresh"></i></div>
+            <div class="sDiv">
+                <div class="fbutton" style="float: none;">
+                    <a href="{:url('Minipro/theme_add')}">
+                        <div class="add">
+                            <span><i class="fa fa-plus"></i>新增小程序</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="theme_box" style="margin-left: 120px;">
+    <ul>
+        {foreach name="list" item="vo" key="k" }
+        <li class="theme_list">
+            <div class="theme_content">
+                <div class="theme_logo">
+                    <img id="litpic_a_{$vo.mini_id}" src="{$vo.litpic|get_default_pic=###}" onClick="GetUploadify(1,'','allimg','litpic_call_back_{$vo.mini_id}')" style="cursor: pointer;">
+                    <script type="text/javascript">
+                        function litpic_call_back_{$vo.mini_id}(fileurl_tmp) {
+                            var mini_id = "{$vo.mini_id}";
+                            layer_loading('正在处理');
+                            $.ajax({
+                                url: "{:url('Minipro/ajax_setfield', ['_ajax'=>1])}",
+                                type: 'POST',
+                                dataType: 'JSON',
+                                data: {table:'minipro',id_name:'mini_id',id_value:mini_id,field:'litpic',value:fileurl_tmp},
+                                success: function(res){
+                                    layer.closeAll();
+                                    if (res.code == 1) {
+                                        $("#litpic_a_"+mini_id).attr('src', fileurl_tmp);
+                                        layer.msg(res.msg, {icon: 1, time:1000});
+                                    } else {
+                                        showErrorMsg(res.msg);
+                                        return false;
+                                    }
+                                },
+                                error: function(e){
+                                    layer.closeAll();
+                                    showErrorMsg(ey_unknown_error);
+                                    return false;
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+                <div class="theme_right">
+                    <div class="theme_info_name" id="name_{$vo.mini_id}">
+                        {$vo.name}
+                    </div>
+                    <div class="theme_info">
+                        <span class="theme_info_id">ID：{$vo.mini_id}</span>
+                        {eq name="'Minipro@theme_edit'|is_check_access" value="1"}
+                        <span class="theme_info_edit"><a href="javascript:void(0);" onclick="editTableVal(this,'minipro','mini_id','name');" data-mini_id="{$vo.mini_id}">修改名称</a></span>
+                        <!-- <span class="theme_info_edit"><a href="javascript:void(0);" onclick="edit(this);" data-url="{:url('Minipro/theme_edit',array('mini_id'=>$vo['mini_id']))}">修改</a></span> -->
+                        <span class="theme_info_edit">
+                        {if condition="$vo['is_default'] eq 1"}
+                            使用中
+                        {else /}
+                            <a href="javascript:void(0);" onClick="setDefaultTheme('{$vo.mini_id}');">设为使用</a>
+                        {/if}
+                        </span>
+                        {/eq}
+
+                        {eq name="'Minipro@theme_del'|is_check_access" value="1"}
+                        {empty name="$vo.is_default"}
+                        <span class="theme_info_del"><a href="javascript:void(0);" data-url="{:url('Minipro/theme_del')}" data-id="{$vo.mini_id}" onClick="delfun(this);">删除</a></span>
+                        {/empty}
+                        {/eq}
+                    </div>
+                </div>
+            </div>
+            <div class="theme_bottom">
+                <div class="theme_bottom_con">
+                    {eq name="'Minipro@page_edit'|is_check_access" value="1"}
+                    <a class="theme_bottom_edit" href="{:url('Minipro/page_edit', ['mini_id'=>$vo['mini_id']])}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑页面</a>
+                    {/eq}
+                    <a class="theme_bottom_admin" href="{:url('Minipro/page_index', ['mini_id'=>$vo['mini_id']])}"><i class="fa fa-sitemap" aria-hidden="true"></i>进入后台</a>
+                </div>
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+    <!--分页位置-->
+    {$page}
+</div>
+
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+
+        // 点击刷新数据
+        $('.fa-refresh').click(function(){
+            location.href = location.href;
+        });
+    });
+
+    // 修改指定表的指定字段值 包括有按钮点击切换是否 或者 排序 或者输入框文字
+    function setDefaultTheme(mini_id)
+    {
+        layer_loading('正在处理');
+        $.ajax({
+            type: 'POST',
+            url: "{:url('Minipro/ajax_set_default_theme')}",
+            data: {mini_id:mini_id,_ajax:1},
+            dataType: 'json',
+            success: function(res){
+                layer.closeAll();
+                if (res.code == 1) {
+                    layer.msg(res.msg, {icon: 1, time:1000}, function(){
+                        window.location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 2, time: 1500}, function(){
+                        window.location.reload();
+                    });  
+                }
+            }
+        }); 
+    }
+
+    function edit(obj)
+    {
+        var url = $(obj).attr('data-url');
+        //iframe窗
+        var iframes = layer.open({
+            type: 2,
+            title: '编辑小程序',
+            fixed: true, //不固定
+            shadeClose: false,
+            shade: 0.3,
+            content: url
+        });
+        layer.full(iframes);
+    }
+
+    function editTableVal(obj,table,id_name,field)
+    {
+        layer.prompt({
+                title:'重命名小程序'
+            },
+            function(val, index){
+                var mini_id = $(obj).attr('data-mini_id');
+                $.ajax({
+                    url: "{:url('Minipro/ajax_setfield', ['_ajax'=>1])}",
+                    type: 'POST',
+                    dataType: 'JSON',
+                    data: {table:table,id_name:id_name,id_value:mini_id,field:field,value:val},
+                    success: function(res){
+                        if (res.code == 1) {
+                            $('#'+field+'_'+mini_id).html(val);
+                            layer.msg(res.msg, {icon: 1, time:1000});
+                        } else {
+                            showErrorMsg(res.msg);
+                            return false;
+                        }
+                    },
+                    error: function(e){
+                        showErrorMsg(ey_unknown_error);
+                        return false;
+                    }
+                });
+                layer.close(index);
+            }
+        );
+    }
+
+</script>
+{include file="public/footer" /}

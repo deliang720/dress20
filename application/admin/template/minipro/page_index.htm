@@ -1,0 +1,259 @@
+{include file="public/layout" /}
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/app.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/amazeui.min2.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/font_783249_m68ye1gfnza.css?v={$version}">
+
+<body class="bodystyle" style="cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+{include file="minipro/left" /}
+<div class="page" style="margin-left: 120px;">
+    <div class="flexigrid">
+        <div class="mDiv" style="overflow: hidden;">
+            <div class="ftitle">
+                <h3>页面列表</h3>
+                <h5>(共{$pager->totalRows}条数据)</h5>
+            </div>
+            <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+            <form class="navbar-form form-inline" action="{:url('Minipro/page_index')}" method="get" onsubmit="layer_loading('正在处理');">
+                {$searchform.hidden|default=''}
+                <div class="sDiv">
+                    <div class="sDiv2">
+                        <input type="text" size="30" name="keywords" value="{$Request.param.keywords}" class="qsbox" placeholder="搜索相关数据...">
+                        <input type="hidden" name="mini_id" value="{$Request.param.mini_id}">
+                        <input type="submit" class="btn" value="搜索">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th class="sign w40" axis="col0">
+                            <div class="tc">选择</div>
+                        </th>
+                        <th abbr="article_show" axis="col5" class="w60">
+                            <div class="tc">页面ID</div>
+                        </th>
+                        <th abbr="article_title" axis="col3" class="">
+                            <div style="text-align: left; padding-left: 10px;" class="">页面名称</div>
+                        </th>
+                        <th abbr="article_show" axis="col5" class="w120">
+                            <div class="tc">页面类型</div>
+                        </th>
+                        <th abbr="article_time" axis="col6" class="w80">
+                            <div class="tc">设为首页</div>
+                        </th>
+                        <th abbr="article_time" axis="col6" class="w160">
+                            <div class="tc">更新时间</div>
+                        </th>
+                        <th axis="col1" class="w200">
+                            <div class="tl">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto;">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+                <table style="width: 100%">
+                    <tbody>
+                    {empty name="list"}
+                        <tr>
+                            <td class="no-data" align="center" axis="col0" colspan="50">
+                                <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+                            </td>
+                        </tr>
+                    {else/}
+                        {foreach name="list" item="vo" key="k" }
+                        <tr>
+                            <td class="sign">
+                                <div class="w40 tc">
+                                    {neq name='$vo.is_home' value='1'}
+                                    <input type="checkbox" name="ids[]" value="{$vo.page_id}">
+                                    {/neq}
+                                </div>
+                            </td>
+                            <td class="sort">
+                                <div class="w60 tc">
+                                    {$vo.page_id}
+                                </div>
+                            </td>
+                            <td class="" style="width: 100%;">
+                                <div class="tl" style="padding-left: 10px;">
+                                    {eq name="'Minipro@page_edit'|is_check_access" value="1"}
+                                    <a href="{:url('Minipro/page_edit', ['mini_id'=>$Request.param.mini_id,'page_id'=>$vo['page_id']])}">{$vo.page_name}</a>
+                                    {else /}
+                                    {$vo.page_name}
+                                    {/eq}
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="w120 tc">
+                                    {$page_type_list[$vo.page_type]['name']|default='无'}
+                                </div>
+                            </td>
+                            <td align="center" class="">
+                                <div class="tc w80">
+                                    {if condition="$vo['is_home'] eq 1"}
+                                        <span class="yes" ><i class="fa fa-check-circle"></i>是</span>
+                                    {else /}
+                                        <span class="no" onClick="changeTableVal('minipro_page','page_id','{$vo.page_id}','is_home',this);" ><i class="fa fa-ban"></i>否</span>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td class="">
+                                <div class="w160 tc">
+                                    {$vo.update_time|date='Y-m-d H:i:s',###}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="w200 tl">
+                                    {eq name="'Minipro@page_copy'|is_check_access" value="1"}
+                                    <!-- <a href="javascript:void(0);" data-url="{:url('Minipro/page_copy', ['mini_id'=>$Request.param.mini_id,'page_id'=>$vo['page_id']])}" onclick="page_copy(this);" class="btn blue"><i class="fa fa-pencil-square-o"></i>复制</a> -->
+                                    {/eq}
+                                    {eq name="'Minipro@page_export'|is_check_access" value="1"}
+                                    <a href="javascript:void(0);" onclick="page_export(this);" data-url="{:url('Minipro/page_export',['mini_id'=>$Request.param.mini_id,'page_id'=>$vo['page_id']])}" class="btn blue"><i class="fa fa-pencil-square-o"></i>导出数据</a>
+                                    {/eq}
+                                    {eq name="'Minipro@page_edit'|is_check_access" value="1"}
+                                    <a href="{:url('Minipro/page_edit', ['mini_id'=>$Request.param.mini_id,'page_id'=>$vo['page_id']])}" class="btn blue"><i class="fa fa-pencil-square-o"></i>编辑</a>
+                                    {/eq}
+                                    {neq name='$vo.is_home' value='1'}
+                                        {eq name="'Minipro@page_del'|is_check_access" value="1"}
+                                        <a class="btn red"  href="javascript:void(0)" data-url="{:url('Minipro/page_del', ['mini_id'=>$Request.param.mini_id])}" data-id="{$vo.page_id}" onClick="delfun(this);"><i class="fa fa-trash-o"></i>删除</a>
+                                        {/eq}
+                                    {/neq}
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}
+                    {/empty}
+                    </tbody>
+                </table>
+            </div>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+        <div class="tDiv">
+            <div class="tDiv2">
+                <div class="fbutton checkboxall">
+                    <input type="checkbox" onclick="javascript:$('input[name*=ids]').prop('checked',this.checked);">
+                </div>
+                {eq name="'Minipro@page_del'|is_check_access" value="1"}
+                <div class="fbutton">
+                    <a onclick="batch_del(this, 'ids');" data-url="{:url('Minipro/page_del', ['mini_id'=>$Request.param.mini_id])}">
+                        <div class="add" title="批量删除">
+                            <span><i class="fa fa-close"></i>批量删除</span>
+                        </div>
+                    </a>
+                </div>
+                {/eq}
+                {eq name="'Minipro@page_add'|is_check_access" value="1"}
+                <div class="fbutton">
+                    <a href="{:url('Minipro/page_add', ['mini_id'=>$Request.param.mini_id])}">
+                        <div class="add" title="新增页面">
+                            <span class="red"><i class="fa fa-plus"></i>新增页面</span>
+                        </div>
+                    </a>
+                </div>
+                {/eq}
+                {eq name="'Minipro@page_import'|is_check_access" value="1"}
+                <div class="fbutton">
+                    <form class="navbar-form form-inline" action="{:url('Minipro/page_import', ['mini_id'=>$Request.param.mini_id])}" name="change_import" id="change_import" method="post" enctype="multipart/form-data">
+                        <a href="javascript:void(0);" class="a-upload"><input type="file" name="importfile" id="importfile" title="请选择…"><i class="fa fa-upload"></i>导入数据</a>
+                    </form>
+                </div>
+                {/eq}
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <!--分页位置-->
+        {$page}
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        // 表格行点击选中切换
+        $('#flexigrid > table>tbody >tr').click(function(){
+            $(this).toggleClass('trSelected');
+        });
+
+        // 点击刷新数据
+        $('.fa-refresh').click(function(){
+            location.href = location.href;
+        });
+
+        $('#importfile').change(function(){
+            var importfile = $('input[name=importfile]').val();
+            var ext = importfile.substr(importfile.lastIndexOf('.')).toLowerCase();
+            if ($.trim(importfile) == '' || ext != '.txt') {
+                showErrorMsg('请上传txt文件！');
+                return false;
+            }
+
+            layer.confirm('是否导入页面数据，确认导入？', {
+                title: false,
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                layer_loading('正在处理');
+                $('#change_import').submit();
+                return false;
+            }, function (index) {
+                $('#importfile').val('');
+                layer.closeAll();
+                return false;
+            });
+        });
+    });
+
+    function page_copy(obj){
+        layer_loading('正在处理');
+        $.ajax({
+            type: "POST",
+            url: $(obj).attr('data-url'),
+            data: {_ajax:1},
+            dataType: 'json',
+            success: function (res) {
+                layer.closeAll();
+                if(res.code == 1){
+                    layer.msg(res.msg, {icon: 1, time: 1000}, function(){
+                        window.location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg, {icon: 5, title:false});
+                }
+            },
+            error:function(){
+                layer.closeAll();
+                layer.alert(ey_unknown_error, {icon: 5, title:false});
+            }
+        });
+    }
+
+    function page_export(obj){
+        var url = $(obj).attr('data-url');
+        layer_loading('正在处理');
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {_ajax:1},
+            dataType: 'json',
+            success: function (res) {
+                layer.closeAll();
+                if(res.code == 1){
+                    window.location.href = url;
+                }else{
+                    layer.alert(res.msg, {icon: 5, title:false});
+                }
+            },
+            error:function(){
+                layer.closeAll();
+                layer.alert(ey_unknown_error, {icon: 5, title:false});
+            }
+        });
+    }
+</script>
+
+{include file="public/footer" /}

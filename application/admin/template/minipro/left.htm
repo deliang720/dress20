@@ -1,0 +1,41 @@
+<!-- 侧边导航栏 -->
+<div class="left-sidebar dis-flex">
+    <!-- 子级菜单-->
+    <ul class="left-sidebar-second">
+        <!-- <li class="sidebar-second-title">小程序</li> -->
+        <li class="sidebar-second-item">
+            <!-- 二级菜单-->
+            <a href="{:url('Minipro/theme_index')}" class="{if condition="preg_match('/^theme_/', $Request.action)"} active {/if}">微信小程序</a>
+            <!-- 三级菜单-->
+            {if condition='!empty($Request.param.mini_id)'}
+            <div class="sidebar-third-item">
+                <a href="javascript:void(0);" class="sidebar-nav-sub-title active"><i class="iconfont icon-caret"></i>页面管理</a>
+                <ul class="sidebar-third-nav-sub">
+                    <li>
+                        <a class="{if condition="in_array($Request.action, array('page_index','page_add','page_edit'))"}active{/if}" href="{:url('Minipro/page_index', ['mini_id'=>$Request.param.mini_id])}">页面设计</a>
+                    </li>
+                    <li>
+                        <a class="{if condition="in_array($Request.action, array('page_category'))"}active{/if}" href="{:url('Minipro/page_category', ['mini_id'=>$Request.param.mini_id])}">分类模板</a>
+                    </li>
+                    <li>
+                        <a class="{if condition="in_array($Request.action, array('contact_edit'))"}active{/if}" href="{:url('Minipro/contact_edit', ['mini_id'=>$Request.param.mini_id])}">联系我们</a>
+                    </li>
+                    <li>
+                        <a class="{if condition="in_array($Request.action, array('tabbar_index','tabbar_add','tabbar_edit'))"}active{/if}" href="{:url('Minipro/tabbar_index', ['mini_id'=>$Request.param.mini_id])}">底部菜单</a>
+                    </li>
+                    <!-- <li>
+                        <a class="{if condition="in_array($Request.action, array('page_links'))"}active{/if}" href="{:url('Minipro/page_links', ['mini_id'=>$Request.param.mini_id])}">页面链接</a>
+                    </li> -->
+                    <!-- <li>
+                        <a class="{if condition="preg_match('/^create_/', $Request.action)"}active{/if}" href="{:url('Minipro/release_step1', ['mini_id'=>$Request.param.mini_id])}">审核发布</a>
+                    </li> -->
+                </ul>
+            </div>
+            <!-- 二级菜单-->
+            <!-- <a href="{:url('Minipro/help_index', ['mini_id'=>$Request.param.mini_id])}" class="{if condition="preg_match('/^help_/', $Request.action)"} active {/if}">帮助中心</a> -->
+            {/if}
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript" src="__STATIC__/common/minipro/js/app.js?v={$version}"></script>

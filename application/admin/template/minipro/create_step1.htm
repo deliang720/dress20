@@ -1,0 +1,285 @@
+{include file="public/layout" /}
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/app.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/amazeui.min2.css?v={$version}"/>
+<link rel="stylesheet" href="__STATIC__/common/minipro/css/font_783249_m68ye1gfnza.css?v={$version}">
+
+<style type="text/css">
+    a.ncap-btn {
+        border-radius:20px;
+    }
+</style>
+
+<body class="bodystyle" style="cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+{include file="minipro/left" /}
+<div class="page" style="margin-left: 120px;">
+    <!-- 操作说明 -->
+    <div id="explanation" class="explanation" style="color: rgb(44, 188, 163); background-color: rgb(237, 251, 248); width: 99%; height: 100%;">
+        <div id="checkZoom" class="title"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span title="收起提示" id="explanationZoom" style="display: block;"></span>
+        </div>
+        <ul style="color: red;">
+            <li>1、建议先可视化DIY设计完小程序首页，完整的页面有利于审核通过；</li>
+            <li>2、开始小程序生成的流程，不改小程序配置情况下，只提交一次审核即可。</li>
+        </ul>
+    </div>
+    <form class="form-horizontal" id="post_form" action="{:url('Minipro/create_step1')}" method="post">
+        <div class="ncap-form-default">
+            <dl class="row"><dt class="tit" style="width: auto"><label><b>联系方式</b></label></dt></dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="title"><em>*</em>姓名</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="username" value="{$row.username|default=''}" id="username" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="title"><em>*</em>E-mail邮箱</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="email" value="{$row.email|default=''}" id="email" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">第一时间收到小程序审核结果通知</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="title"><em>*</em>手机号码</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="mobile" value="{$row.mobile|default=''}" id="mobile" class="input-txt" onkeyup="this.value=this.value.replace(/[^0-9\-]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^0-9\-]/g,''));">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row"><dt class="tit" style="width: auto"><label><b>参数配置</b></label></dt></dl>
+            <dl class="row none">
+                <dt class="tit">
+                    <label for="url"><em>*</em>小程序AppID</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="appId" id="appId" value="{$row.appId|default=''}" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">在 微信公众平台->设置->开发设置中查看</p>
+                </dd>
+            </dl>
+            <dl class="row none">
+                <dt class="tit">
+                    <label for="title"><em>*</em>小程序密钥AppSecret</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="appSecret" value="{$row.appSecret|default=''}" id="appSecret" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">在 微信公众平台->设置->开发设置中查看</p>
+                </dd>
+            </dl>
+            <dl class="row none">
+                <dt class="tit">
+                    <label for="title"><em>*</em>小程序原始ID</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="originalId" value="{$row.originalId|default=''}" id="originalId" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">在 微信公众平台->设置->基本设置中查看</p>
+                </dd>
+            </dl>
+            <dl class="row none">
+                <dt class="tit">
+                    <label for="title"><em>*</em>体验者(微信号)</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" name="wechatId" value="{$row.wechatId|default=''}" id="wechatId" class="input-txt" onkeyup="this.value=this.value.replace(/[,，]/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[,，]/g,''));">
+                    <span class="err"></span>
+                    <p class="notic">小程序正式审核通过前，只能该账号可以提前体验</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="title"><em>*</em>api接口配置</label>
+                </dt>
+                <dd class="opt">
+                    <select name="tcp" id="tcp">
+                        <option value="http" {if condition="'http' == $row['tcp'] || (empty($row['tcp']) && 'http' == $scheme)"}selected{/if}>http://</option>
+                        <option value="https" {if condition="'https' == $row['tcp'] || (empty($row['tcp']) && 'https' == $scheme)"}selected{/if}>https://</option>
+                    </select>
+                    <input type="text" name="domain" value="{$row.domain|default=$Request.host}" id="domain" style="width: 293px;">
+                    <span class="err"></span>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="intro"><em>*</em>小程序描述</label>
+                </dt>
+                <dd class="opt">
+                    <textarea rows="5" cols="80" id="intro" name="intro" style="height:80px;" placeholder="描述该小程序的简单介绍，有利于快速通过审核">{$row.intro|default=''}</textarea>
+                    <p class="notic"></p>
+                </dd>
+            </dl>
+            <div class="bot">
+                <input type="hidden" name="mini_id" value="{$Request.param.mini_id}">
+                <input type="hidden" name="root_dir" value="__ROOT_DIR__" />
+                <input type="hidden" name="version" value="{$row.version|default=$version}" />
+                <input type="hidden" name="navTitle" value="{$row.navTitle|default=''}" />
+                <a href="JavaScript:void(0);" onclick="checkForm();" class="ncap-btn ncap-btn-green">1、生成小程序</a>&nbsp;→
+                <a href="javascript:void(0);" {if condition="isset($row.miniproStatus) && !in_array($row.miniproStatus, [0,1,2,5])"}onclick="get_qrcode(this);"{/if} data-url="{:url('Minipro/create_step2', ['mini_id'=>$Request.param.mini_id])}" class="ncap-btn {if condition="isset($row.miniproStatus) && !in_array($row.miniproStatus, [0,1,2,5])"}ncap-btn-green{/if}">2、体验二维码</a>&nbsp;→
+                <a href="javascript:void(0);" {if condition="isset($row.miniproStatus) && in_array($row.miniproStatus, [3])"}onclick="hideform_submit(this);" data-url="{:url('Minipro/create_step3', ['mini_id'=>$Request.param.mini_id])}"{/if} class="ncap-btn {if condition="isset($row.miniproStatus) && in_array($row.miniproStatus, [3])"}ncap-btn-green{/if}">3、提交审核</a>&nbsp;→
+                <a href="javascript:void(0);" {if condition="!empty($row.auditid) && $row.auditstatus != 3"}onclick="get_auditstatus(this);" data-url="{:url('Minipro/create_step4', ['mini_id'=>$Request.param.mini_id])}" data-estimatetime="{$row.estimateTime|date='Y-m-d H:i:s',###}"{/if} class="ncap-btn {if condition="!empty($row.auditid) && $row.auditstatus != 3"}ncap-btn-green{/if}">4、查看审核进度</a>&nbsp;→
+                <a href="javascript:void(0);" {if condition="empty($row['auditstatus']) && isset($row['miniproStatus']) && in_array($row['miniproStatus'], array(4))"}onclick="hideform_submit(this);" data-url="{:url('Minipro/create_step5', ['mini_id'=>$Request.param.mini_id])}"{/if} class="ncap-btn {if condition="empty($row['auditstatus']) && isset($row['miniproStatus']) && in_array($row['miniproStatus'], array(4))"}ncap-btn-green{/if}">5、发布小程序</a>&nbsp;→
+                <a {if condition="isset($row['miniproStatus']) && in_array($row['miniproStatus'], array(5)) || !empty($row['createminiproTime'])"} href="{:url('Minipro/create_step6', ['mini_id'=>$Request.param.mini_id])}" {else /} href="javascript:void(0);" {/if} class="ncap-btn {if condition="isset($row['miniproStatus']) && in_array($row['miniproStatus'], array(5)) || (2 <= $row['miniproStatus'] && !empty($row['createminiproTime']))"}ncap-btn-green{/if}">6、下载小程序码</a>
+            </div>
+        </div>
+    </form>
+</div>
+<form id="hideform" method="POST" action="" style="display: none;"></form>
+<script type="text/javascript">
+    function hideform_submit(obj)
+    {
+        var url = $(obj).data('url');
+        $('#hideform').attr('action', url);
+        layer_loading('正在处理');
+        $('#hideform').submit();
+    }
+</script>
+
+<script type="text/javascript">
+    // 判断输入框是否为空
+    function checkForm(){
+        if(!$.trim($('input[name=username]').val())){
+            showErrorMsg('姓名不能为空！');
+            $('input[name=username]').focus();
+            return false;
+        }
+        if(!$.trim($('input[name=email]').val())){
+            showErrorMsg('E-mail邮箱不能为空！');
+            $('input[name=email]').focus();
+            return false;
+        }
+        if(!$.trim($('input[name=mobile]').val())){
+            showErrorMsg('手机号码不能为空！');
+            $('input[name=mobile]').focus();
+            return false;
+        }
+        if(!$.trim($('input[name=appId]').val())){
+            showErrorMsg('小程序AppID不能为空！');
+            $('input[name=appId]').focus();
+            return false;
+        }
+        if(!$.trim($('input[name=appSecret]').val())){
+            showErrorMsg('小程序密钥AppSecret不能为空！');
+            $('input[name=appSecret]').focus();
+            return false;
+        }
+        // if(!$.trim($('input[name=originalId]').val())){
+        //     showErrorMsg('小程序原始ID不能为空！');
+        //     $('input[name=originalId]').focus();
+        //     return false;
+        // }
+        // if(!$.trim($('input[name=wechatId]').val())){
+        //     showErrorMsg('体验者微信号不能为空！');
+        //     $('input[name=wechatId]').focus();
+        //     return false;
+        // }
+        if(!$.trim($('input[name=domain]').val())){
+            showErrorMsg('api接口域名不能为空！');
+            $('input[name=domain]').focus();
+            return false;
+        }
+        if(!$.trim($('#intro').val())){
+            showErrorMsg('小程序描述不能为空！');
+            $('#intro').focus();
+            return false;
+        }
+        layer_loading('正在处理');
+        $('#post_form').submit();
+    }
+</script>
+
+<script type="text/javascript">  
+  /**
+   * 获取体验二维码
+   */
+  function get_qrcode(obj)
+  {
+    layer_loading('正在处理');
+    $.ajax({
+      url:  $(obj).data('url'),
+      type: 'GET',
+      dataType: 'JSON',
+      data: {_ajax:1},
+      success: function(res){
+        layer.closeAll();
+        if (res.code == 1) {
+          layer.open({
+            title: '小程序体验二维码',
+            type: 1,
+            skin: 'layui-layer-demo', //样式类名
+            closeBtn: 1, //不显示关闭按钮
+            anim: 2,
+            shadeClose: false, //开启遮罩关闭
+            content: "<img src='"+res.data.msg+"' width='230' height='230'/>"
+          });
+          return false;
+        } else {
+          layer.alert(res.msg, {icon: 5, title:false});
+          return false;
+        }
+      },
+      error: function(e){
+        layer.closeAll();
+        layer.alert(ey_unknown_error, {icon: 5, title:false});
+        return false;
+      }
+    });
+  }
+
+  /**
+   * 查看审核进度
+   */
+  function get_auditstatus(obj)
+  {
+    layer_loading('正在处理');
+    $.ajax({
+      url: $(obj).data('url'),
+      type: 'GET',
+      dataType: 'JSON',
+      data: {_ajax:1},
+      success: function(res){
+        layer.closeAll();
+        if (res.errcode == 0) {
+          icon = 5;
+          if (res.status == 1) {
+            res.errmsg = res.reason;
+          } else if (res.status == 0) {
+            icon = 6;
+            res.errmsg = '审核成功，可以发布小程序了';
+          } else if (res.status == 2) {
+            icon = 6;
+            var estimatetime = $(obj).data('estimatetime');
+            res.errmsg = "审核中，预计"+estimatetime+"之前完成";
+          }
+          layer.alert(res.errmsg, {
+            title: '查看审核进度',
+            icon: icon
+          });
+          return false;
+        } else {
+          layer.alert(res.errmsg, {icon: 5});
+          return false;
+        }
+      },
+      error: function(e){
+        layer.closeAll();
+        layer.alert(ey_unknown_error, {icon: 5});
+        return false;
+      }
+    });
+  }
+</script>
+{include file="public/footer" /}

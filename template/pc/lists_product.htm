@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>{eyou:global name='web_title' /}</title>
+    {eyou:static file='skin/aites/css/css.css'}
+    {eyou:static file='skin/aites/css/common.css'}
+    {eyou:static file='skin/aites/css/swiper.min.css'}
+    {eyou:static file='skin/aites/js/jquery-1.9.0.min.js'}
+    {eyou:static file='skin/aites/js/modernizr.custom.js'}
+    {eyou:static file='skin/aites/js/ejmenu.js'}
+    {eyou:static file='skin/aites/js/jquery.dlmenu.js'}
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?d093227a4a5d83266b69c61beb01821c";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+
+<body>
+{eyou:include file="header.htm" /}
+{eyou:include file="banner.htm" /}
+
+<div class="case_center">
+    <div class="middle">
+        <h2>案例展示</h2>
+        <h4>——</h4>
+        <h3>ATTES DESIGN AGENCY</h3>
+        <div class="product_case">{eyou:field name="id"/}
+            {eyou:screening id='field' currentstyle='on' alltxt='不限' typeid='{$field.id}'}
+            {eyou:volist name='$field.list' id='vo'}
+            <div class="product_li">
+                <span>{$vo.title}：</span>
+                <div class="fenlei">
+                    {eyou:volist name='$vo.dfvalue' id='val'}
+                    <a {$val.onClick} class="{$val.currentstyle}">{$val.name}</a>
+                    {/eyou:volist}
+                </div>
+            </div>
+            {/eyou:volist}
+            {$field.hidden}
+            {/eyou:screening}
+        </div>
+        <div class="case_content">
+            {eyou:list titlelen='20' pagesize='12'}
+
+            <div class="view view-tenth">
+                <a href="{$field.arcurl}" title=""><img src="{$field.litpic}" /></a>
+                <div class="xinxi">{$field.title}</div>
+                <div class="mask">
+                    <a href="{$field.arcurl}" title="">
+                        <h2>{$field.title}</h2>
+                        <p>面积：500㎡</p>
+                    </a>
+                </div>
+            </div>
+            {/eyou:list}
+
+        </div>
+        <div class="paging"> {eyou:pagelist listitem='index,pre,pageno,next,end' listsize='2' /} <a href="#" title="">上一页</a> <a href="#" title="" class="on">1</a> <a href="#" title="">2</a> <a href="#" title="">3</a> <a href="#" title="">上一页</a> </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="middle">
+        <div class="footer_center"> <a href="#" title="">网站首页</a> <a href="#" title="">产品展示</a> <a href="#" title="">案例展示</a> <a href="#" title="">新闻中心</a> <a href="#" title="">关于我们</a> <a href="#" title="">联系我们</a> </div>
+        <p>版权所有：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备案号：xxxxxxxx-1&nbsp;&nbsp;&nbsp;&nbsp;技术支持：大橙子北京信息科技有限公司</p>
+        <p>全国服务热线：xxxxxxxxxxx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;传真：xxxxxxxxxxxx&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网址：xxxxxxxxxx</p>
+        <p>地址：xxxxxxxxxxx</p>
+        <p><img src="images/img_19.jpg" alt="" /><img src="images/img_21.jpg" alt="" /></p>
+    </div>
+</div>
+<script src="js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        loop: true,
+        autoplay:true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+<script type="text/javascript">
+    $(function(){
+        $( '#dl-menu' ).dlmenu();
+    });
+</script>
+</body>
+</html>

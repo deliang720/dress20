@@ -1,0 +1,47 @@
+<?php
+/**
+ * 易优CMS
+ * ============================================================================
+ * 版权所有 2016-2028 海南赞赞网络科技有限公司，并保留所有权利。
+ * 网站地址: http://www.eyoucms.com
+ * ----------------------------------------------------------------------------
+ * 如果商业用途务必到官方购买正版授权, 以免引起不必要的法律纠纷.
+ * ============================================================================
+ * Author: 小虎哥 <1105415366@qq.com>
+ * Date: 2018-4-3
+ */
+
+namespace app\common\model;
+
+use think\Db;
+use app\common\model\MiniproBase;
+
+/**
+ * 小程序分类模板
+ */
+class MiniproCategory extends MiniproBase
+{
+    //初始化
+    protected function initialize()
+    {
+        // 需要调用`Model`的`initialize`方法
+        parent::initialize();
+    }
+
+    /**
+     * 分类模板详情
+     * @return static|null
+     * @throws \think\exception\DbException
+     */
+    public static function detail()
+    {
+        $result = Db::name('minipro_category')->where([
+                'mini_id'   => parent::$mini_id,
+                'lang'  => parent::$lang,
+            ])
+            ->cache(true,EYOUCMS_CACHE_TIME,"minipro_category")
+            ->find();
+
+        return $result;
+    }
+}

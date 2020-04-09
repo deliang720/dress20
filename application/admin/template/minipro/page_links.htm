@@ -1,0 +1,477 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="__STATIC__/common/minipro/css/amazeui.min.css?v={$version}"/>
+    <link rel="stylesheet" href="__STATIC__/common/minipro/css/app.css?v={$version}"/>
+    <link rel="stylesheet" href="__STATIC__/common/minipro/css/font_783249_m68ye1gfnza.css?v={$version}">
+    <script type="text/javascript" src="__STATIC__/common/minipro/js/jquery.min.js?v={$version}"></script>
+    <script src="__STATIC__/common/minipro/js/font_783249_e5yrsf08rap.js"></script>
+</head>
+<body data-type="">
+<div class="am-g tpl-g">
+    {include file="minipro/left" /}
+    <div class="tpl-content-wrapper ">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-body">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">页面链接</div>
+                            </div>
+                            <div class="link-list">
+                                <ul class="">
+                                    <li class="link-item">
+                                        <div class="row page-name">首页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/index/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">自定义页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/custom/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">page_id</span>
+                                                    <span>页面ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/custom/index?page_id=10</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">分类页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/category/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">列表页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/article/list</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">typeid</span>
+                                                    <span>栏目ID（不包括留言模型的栏目ID）</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/article/list?typeid=1</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">文档页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/article/view</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">aid</span>
+                                                    <span>文档ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/article/view?aid=100</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">单页面</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/article/single</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">typeid</span>
+                                                    <span>栏目ID（单页模型的栏目ID）</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/article/single?typeid=1</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">在线留言</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/guestbook/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">typeid</span>
+                                                    <span>栏目ID（留言模型的栏目ID）</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/guestbook/index?typeid=100</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">联系我们</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/contact/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">站内搜索</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/search/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+<!--                                     <li class="link-item">
+                                        <div class="row page-name">购物车页面</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/flow/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">个人中心页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/user/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">订单列表页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/order/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">dataType</span>
+                                                    <span>订单类型 ( </span>
+                                                    <span class="x-color-green">all</span>
+                                                    <span>全部，</span>
+                                                    <span class="x-color-green">payment</span>
+                                                    <span>已付款，</span>
+                                                    <span class="x-color-green">delivery</span>
+                                                    <span>待发货，</span>
+                                                    <span class="x-color-green">received</span>
+                                                    <span>待收货</span>
+                                                    <span>)</span>
+                                                    <span class="">　--选填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/order/index?dataType=all</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">分销中心页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/dealer/index/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">领券中心页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/coupon/coupon</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">我的优惠券页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/user/coupon/coupon</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">拼团 - 拼团首页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/sharing/index/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">拼团 - 商品详情页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/sharing/goods/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">goods_id</span>
+                                                    <span>拼团商品ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/sharing/goods/index?goods_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">拼团 - 拼单详情页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/sharing/active/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">active_id</span>
+                                                    <span>拼单ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/sharing/active/index?active_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">门店详情页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/shop/detail/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">shop_id</span>
+                                                    <span>门店ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/shop/detail/index?shop_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">砍价活动 - 首页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/bargain/index/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">砍价活动 - 我的砍价</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/bargain/index/index?tab=1</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">砍价活动 - 活动商品页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/bargain/goods/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">active_id</span>
+                                                    <span>活动ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/bargain/goods/index?active_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">砍价活动 - 砍价记录详情页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/bargain/task/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">task_id</span>
+                                                    <span>砍价记录ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/bargain/task/index?task_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">整点秒杀 - 会场首页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/sharp/index/index</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="link-item">
+                                        <div class="row page-name">整点秒杀 - 商品详情页</div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">地址：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-green">pages/sharp/goods/index</span>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数1：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">active_time_id</span>
+                                                    <span>场次ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">参数2：</div>
+                                            <div class="am-fl">
+                                                <p class="param">
+                                                    <span class="x-color-green">sharp_goods_id</span>
+                                                    <span>秒杀商品ID</span>
+                                                    <span class="x-color-red">　--必填</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row am-cf">
+                                            <div class="am-fl">例如：</div>
+                                            <div class="am-fl">
+                                                <span class="x-color-c-gray-5f">pages/sharp/goods/index?active_time_id=10001&sharp_goods_id=10001</span>
+                                            </div>
+                                        </div>
+                                    </li> -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
